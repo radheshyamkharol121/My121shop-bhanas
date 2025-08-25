@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* कस्टम CSS क्लासेस */
+@layer components {
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition duration-200;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition duration-200;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none;
+  }
+}
+
+/* ग्लोबल स्टाइल्स */
+body {
+  font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
+}
+
+/* हिंदी फॉन्ट सपोर्ट */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap');
+
+.hindi-text {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+}
+
+/* स्क्रॉलबार स्टाइलिंग */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c5c5c5;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
