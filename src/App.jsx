@@ -16,6 +16,7 @@ import { CartProvider } from './context/CartContext';
 function App() {
   return (
     <AuthProvider>
+    <CartProvider>
       <Router>
         <div className="flex flex-col min-h-screen bg-gray-50">
           <Navbar />
