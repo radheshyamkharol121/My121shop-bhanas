@@ -72,3 +72,41 @@ export default function ProductCard({ product }) {
     </div>
   )
 }
+
+
+
+// useCart hook import करें
+import { useCart } from '../context/CartContext';
+
+export default function ProductCard({ product }) {
+  const { addToCart } = useCart();
+  const [adding, setAdding] = useState(false);
+
+  const handleAddToCart = async () => {
+    setAdding(true);
+    try {
+      await addToCart(product);
+      // सफलता नोटिफिकेशन दिखाएं
+      toast.success('उत्पाद कार्ट में जोड़ा गया');
+    } catch (error) {
+      toast.error('त्रुटि: उत्पाद जोड़ने में विफल');
+    } finally {
+      setAdding(false);
+    }
+  };
+
+  return (
+    <div className="card group">
+      {/* उत्पाद विवरण */}
+      
+      {/* कार्ट बटन */}
+      <button 
+        onClick={handleAddToCart}
+        disabled={adding}
+        className="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition duration-200 disabled:opacity-50"
+      >
+        {adding ? 'जोड़ रहे हैं...' : 'कार्ट में जोड़ें'}
+      </button>
+    </div>
+  );
+}
