@@ -8,7 +8,7 @@ import Login from './pages/Auth/Login'
 import Signup from './pages/Auth/Signup'
 import ProductDetails from './pages/User/ProductDetails'
 import Cart from './pages/User/Cart'
-
+import { CartProvider } from './context/CartContext';
 /**
  * मुख्य ऐप कंपोनेंट - पूरी वेबसाइट का मुख्य घटक
  * यह रूटिंग और प्रदाता (Providers) सेट करता है
