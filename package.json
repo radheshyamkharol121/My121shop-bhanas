@@ -32,3 +32,13 @@
     "vite": "^4.5.0"
   }
 }
+
+{
+  "dependencies": {
+    // अन्य dependencies के साथ ये जोड़ें
+    "react-router-dom": "^6.8.1",
+    "lucide-react": "^0.294.0",
+    "react-hot-toast": "^2.4.1",
+    "recharts": "^2.8.0"
+  }
+}
