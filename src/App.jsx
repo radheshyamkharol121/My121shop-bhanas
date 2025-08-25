@@ -43,6 +43,7 @@ function App() {
           <Toaster position="top-right" />
         </div>
       </Router>
+     </CartProvider>
     </AuthProvider>
   )
 }
