@@ -9,6 +9,8 @@ import Signup from './pages/Auth/Signup'
 import ProductDetails from './pages/User/ProductDetails'
 import Cart from './pages/User/Cart'
 import { CartProvider } from './context/CartContext';
+import ImportProducts from './pages/Admin/ImportProducts';
+import DropshippingOrders from './pages/Admin/DropshippingOrders';
 /**
  * मुख्य ऐप कंपोनेंट - पूरी वेबसाइट का मुख्य घटक
  * यह रूटिंग और प्रदाता (Providers) सेट करता है
@@ -40,7 +42,9 @@ function App() {
             </Routes>
           </main>
           <Footer />
-          <Toaster position="top-right" />
+          <Toaster position="top-right" 
+<Route path="/admin/import-products" element={<AdminRoute><ImportProducts /></AdminRoute>} />
+<Route path="/admin/dropshipping-orders" element={<AdminRoute><DropshippingOrders /></AdminRoute>} />
         </div>
       </Router>
      </CartProvider>
