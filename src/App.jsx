@@ -17,6 +17,10 @@ import DropshippingOrders from './pages/Admin/DropshippingOrders';
  */
 function App() {
   return (
+ <div>
+      <h1>My121Shop 🛒</h1>
+      <p>E-commerce app coming soon...</p>
+    </div>
     <AuthProvider>
     <CartProvider>
       <Router>
