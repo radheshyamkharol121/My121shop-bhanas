@@ -13,27 +13,25 @@ import { db } from '../firebase'
 // ऑथ कॉन्टेक्स्ट बनाएं
 const AuthContext = createContext()
 
-/**
- * प्रमाणीकरण कॉन्टेक्स्ट प्रदाता
- * यह ऐप के सभी भागों में उपयोगकर्ता डेटा प्रदान करता है
- */
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // उपयोगकर्ता की प्रमाणीकरण स्थिति की सदस्यता लें
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        // Firebase से अतिरिक्त उपयोगकर्ता डेटा प्राप्त करें
-        const userDoc = await getDoc(doc(db, 'users', user.uid))
-        const userData = userDoc.exists() ? userDoc.data() : {}
-        
+    // Firebase user listener
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        // Firestore से user doc निकालो
+        const userRef = doc(db, 'users', firebaseUser.uid)
+        const userSnap = await getDoc(userRef)
+        const userData = userSnap.exists() ? userSnap.data() : {}
+
         setUser({
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName || userData.name || '',
-          photoURL: user.photoURL || userData.photoURL || '',
+          uid: firebaseUser.uid,
+          email: firebaseUser.email,
+          displayName: firebaseUser.displayName || userData.name || '',
+          photoURL: firebaseUser.photoURL || userData.photoURL || '',
+          role: userData.role || 'customer', // 👈 default role
           ...userData
         })
       } else {
@@ -45,51 +43,40 @@ export function AuthProvider({ children }) {
     return () => unsubscribe()
   }, [])
 
-  /**
-   * उपयोगकर्ता लॉगिन करें
-   * @param {string} email - उपयोगकर्ता का ईमेल
-   * @param {string} password - उपयोगकर्ता का पासवर्ड
-   */
+  // 🔹 Login
   const login = async (email, password) => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password)
-      return { success: true, user: userCredential.user }
+      const userCred = await signInWithEmailAndPassword(auth, email, password)
+      return { success: true, user: userCred.user }
     } catch (error) {
       return { success: false, error: error.message }
     }
   }
 
-  /**
-   * नए उपयोगकर्ता को पंजीकृत करें
-   * @param {string} email - उपयोगकर्ता का ईमेल
-   * @param {string} password - उपयोगकर्ता का पासवर्ड
-   * @param {string} name - उपयोगकर्ता का नाम
-   */
-  const signup = async (email, password, name) => {
+  // 🔹 Signup
+  const signup = async (email, password, name, role = 'customer') => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-      
-      // उपयोगकर्ता प्रोफाइल अपडेट करें
-      await updateProfile(userCredential.user, {
-        displayName: name
+      const userCred = await createUserWithEmailAndPassword(auth, email, password)
+
+      // DisplayName सेट करना
+      await updateProfile(userCred.user, { displayName: name })
+
+      // Firestore में doc बनाना
+      await setDoc(doc(db, 'users', userCred.user.uid), {
+        uid: userCred.user.uid,
+        email,
+        name,
+        role, // default: customer, लेकिन manually admin भी डाल सकते हो
+        createdAt: new Date()
       })
 
-      // Firestore में उपयोगकर्ता डेटा सहेजें
-      await setDoc(doc(db, 'users', userCredential.user.uid), {
-        uid: userCredential.user.uid,
-        email: email,
-        name: name,
-        createdAt: new Date(),
-        role: 'customer'
-      })
-
-      return { success: true, user: userCredential.user }
+      return { success: true, user: userCred.user }
     } catch (error) {
       return { success: false, error: error.message }
     }
   }
 
-  // उपयोगकर्ता लॉगआउट करें
+  // 🔹 Logout
   const logout = async () => {
     try {
       await signOut(auth)
@@ -99,12 +86,7 @@ export function AuthProvider({ children }) {
     }
   }
 
-  const value = {
-    user,
-    login,
-    signup,
-    logout
-  }
+  const value = { user, login, signup, logout }
 
   return (
     <AuthContext.Provider value={value}>
@@ -113,7 +95,7 @@ export function AuthProvider({ children }) {
   )
 }
 
-// ऑथ कॉन्टेक्स्ट का उपयोग करने के लिए कस्टम हुक
+// 🔹 Custom hook
 export function useAuth() {
   return useContext(AuthContext)
 }
