@@ -2,7 +2,13 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
-  // अपना Firebase कॉन्फ़िगरेशन यहाँ डालें
+  apiKey: "AIzaSyA3a6lSIE1952iZUkIfWtozzWlrZbcXM5E",
+  authDomain: "my121shop-56021.firebaseapp.com",
+  databaseURL: "https://my121shop-56021-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "my121shop-56021",
+  storageBucket: "my121shop-56021.firebasestorage.app",
+  messagingSenderId: "772439515291",
+  appId: "1:772439515291:web:6f1cd87e0117390726663e"
 };
 
 const app = initializeApp(firebaseConfig);
