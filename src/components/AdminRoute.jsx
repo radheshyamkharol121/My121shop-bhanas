@@ -1,24 +1,24 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Navigate } from 'react-router-dom'
-import { AuthContext } from '../context/AuthContext'
+import { useAuth } from '../context/AuthContext'
 
 /**
- * AdminRoute - Protected Route for Admin Pages
+ * AdminRoute - केवल Admin users के लिए Protected Route
  */
 function AdminRoute({ children }) {
-  const { user } = useContext(AuthContext)
+  const { user } = useAuth()
 
-  // अगर user login नहीं है → तो login page पर redirect
   if (!user) {
+    // अगर user login नहीं है → login page पर redirect
     return <Navigate to="/login" replace />
   }
 
-  // अगर user admin नहीं है → तो homepage पर redirect
   if (user.role !== 'admin') {
+    // अगर user है लेकिन admin नहीं → homepage पर redirect
     return <Navigate to="/" replace />
   }
 
-  // अगर सब सही है → children component render करो
+  // ✅ सब सही → children render करो
   return children
 }
 
