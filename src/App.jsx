@@ -15,11 +15,14 @@ import DropshippingOrders from './pages/Admin/DropshippingOrders';
  * मुख्य ऐप कंपोनेंट - पूरी वेबसाइट का मुख्य घटक
  * यह रूटिंग और प्रदाता (Providers) सेट करता है
  */
+import Header from './components/Header';
 function App() {
   return (
- <div>
-      <h1>My121Shop 🛒</h1>
-      <p>E-commerce app coming soon...</p>
+    <div>
+      <Header />
+      <h1>Welcome to My121Shop 🚀</h1>
+      <p>Your React app is running successfully!</p>
+    </div>
     </div>
     <AuthProvider>
     <CartProvider>
