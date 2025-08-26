@@ -7,7 +7,7 @@ import { CartProvider } from './context/CartContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Header from './components/Header'
-import AdminRoute from './components/AdminRoute' // ⚡ ये बनाना पड़ेगा (admin access check)
+import AdminRoute from './components/AdminRoute' // ⚡ Admin access check component
 
 // User Pages
 import Home from './pages/User/Home'
@@ -23,8 +23,8 @@ import ImportProducts from './pages/Admin/ImportProducts'
 import DropshippingOrders from './pages/Admin/DropshippingOrders'
 
 /**
- * मुख्य ऐप कंपोनेंट - पूरी वेबसाइट का मुख्य घटक
- * यह रूटिंग और प्रदाता (Providers) सेट करता है
+ * मुख्य ऐप कंपोनेंट - पूरी वेबसाइट का entry point
+ * यहां Providers (Auth, Cart), Router और Routes define हैं
  */
 function App() {
   return (
@@ -78,7 +78,7 @@ function App() {
             {/* Footer */}
             <Footer />
 
-            {/* Notifications */}
+            {/* Toast Notifications */}
             <Toaster position="top-right" />
           </div>
         </Router>
